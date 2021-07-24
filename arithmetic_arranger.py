@@ -8,36 +8,49 @@ snd_oprnd
 oprtr
 """
 
-import re
 
-
-def arithmetic_arranger(problems, result=False):
+def arithmetic_arranger(prblms_input, result=False):
 
     # more than 4 problems
-    if len(problems) > 4:
+    if len(prblms_input) > 4:
         print("Error: Too many problems.")
-        arranged_problems = None
+        arngd_prblms_lst = None
     # no problems provided
-    if len(problems) < 1:
+    if len(prblms_input) < 1:
         print("Error: Enter a problem.")
-        arranged_problems = None
+        arngd_prblms_lst = None
 
     # transcribing the entered list
-    for problem in problems:
-
-        # no + or - operands
-        if re.search("[+-]", problem) is None:
-            print("Error: Operator must be '+' or '-'.")
-            arranged_problems = None
+    for prblm in prblms_input:
 
         # extracting the operands and operator
-        fst_oprnd = str(re.findall("()[+-]", problem)[0])
-        snd_oprnd = str(re.findall("[+-]()", problem)[0])
-        oprtr = str(re.findall("[+-]", problem)[0])
+        prblm_spltd = prblm.split()
+        fst_oprnd = prblm_spltd[0]
+        snd_oprnd = prblm_spltd[2]
+        oprtr = prblm_spltd[1]
+
+        # no + or - operands
+        if oprtr not in ["+", "-"]:
+            print("Error: Operator must be '+' or '-'.")
+            arngd_prblms_lst = None
 
         # the formatting in the making, make another list called frmtd_b4_ans each element has prblm
         arngd_prblms_lst = list()
         spaces = 2 + len(str(snd_oprnd))
-        arngd_prblm = f"{fst_oprnd.rjust(spaces)}\n{oprtr} {snd_oprnd}\n{'-'*spaces}"
+        if result == True:
+            prblm_res = str(eval(prblm))
+            arngd_prblm = f"{fst_oprnd.rjust(spaces)}\n{oprtr} {snd_oprnd}\n{'-'*spaces}\n{prblm_res.rjust(spaces)}"
+        elif result == False:
+            arngd_prblm = (
+                f"{fst_oprnd.rjust(spaces)}\n{oprtr} {snd_oprnd}\n{'-'*spaces}"
+            )
         arngd_prblms_lst.append(arngd_prblm)
-    return arngd_prblms_lst
+
+    arngd_prblms = "\t".join(arngd_prblms_lst)
+
+    return arngd_prblms
+
+
+# DEBUG
+ofa7 = arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "-1.723 + 49"], True)
+print(ofa7)
