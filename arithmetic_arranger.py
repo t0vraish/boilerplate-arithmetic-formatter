@@ -1,12 +1,11 @@
 """
-dlw2ty 2enta 3ndk 3245+645 tmm? t3ml regex (import re) ba3deeha 2eh ba2a.
-2el 4akl 2el neha2y zay 2el README ba3deeha law fee argument True, ttl3 2el nateega ta7t 2el 5at.
-law mfee4 2aw  digits 2ktr mn 2arba3a 2aw operators 8er + aw - 2aw 2ktar mn 4 prblms 2eddy error zay ma maktoob fel README.
-problems arg is a list len 4 max.
-result arg is False by default and gives answers if True
-fst_oprnd
-snd_oprnd
-oprtr
+How the code works:
+- You get the list of input function strings
+- For each string you split it and assign each operand to a variable, then turn it into a string
+- The program then checks which number is longer and adjust the spacing using the "spaces" variable and adjusts the number  of dashes
+- Then checks for "result" argument in the function and adds the result of the inserted problem string
+- After that, the resultant formatted string is appended to a list which is returned through the function
+- Theres error checking if there are more than 4 problems entered, no problems, if there weren't digits entered, if the operand isn't "+" or "-"
 """
 
 
@@ -16,11 +15,14 @@ def arithmetic_arranger(prblms_input, result=False):
     if len(prblms_input) > 4:
         print("Error: Too many problems.")
         arngd_prblms_lst = None
+        exit()
     # no problems provided
     if len(prblms_input) < 1:
         print("Error: Enter a problem.")
         arngd_prblms_lst = None
+        exit()
 
+    arngd_prblms_lst = list()
     # transcribing the entered list
     for prblm in prblms_input:
 
@@ -36,14 +38,15 @@ def arithmetic_arranger(prblms_input, result=False):
             snd_flt_tst = float(snd_oprnd)
         except:
             print("Error: Numbers must only contain digits.")
+            exit()
 
         # no + or - operands
         if oprtr not in ["+", "-"]:
             print("Error: Operator must be '+' or '-'.")
             arngd_prblms_lst = None
+            exit()
 
         # the formatting in the making, make another list called frmtd_b4_ans each element has prblm
-        arngd_prblms_lst = list()
 
         # making sure spacing is alright
         if len(str(snd_oprnd)) > len(str(fst_oprnd)):
@@ -55,21 +58,24 @@ def arithmetic_arranger(prblms_input, result=False):
             fst_oprnd_frmt = fst_oprnd.rjust(spaces)
             snd_oprnd_frmt = snd_oprnd.rjust(spaces - 2)
 
+        # real deal formatting
         if result == True:
             prblm_rslt = str(eval(prblm))
             arngd_prblm = f"{fst_oprnd_frmt}\n{oprtr} {snd_oprnd_frmt}\n{'-'*spaces}\n{prblm_rslt.rjust(spaces)}"
         elif result == False:
             arngd_prblm = f"{fst_oprnd_frmt}\n{oprtr} {snd_oprnd_frmt}\n{'-'*spaces}"
+
+        # joining multiple formatted problems into a list
         arngd_prblms_lst.append(arngd_prblm)
 
-    arngd_prblms = "\t".join(arngd_prblms_lst)
+    # turning the list into a single string
+    # arngd_prblms = "\t".join(arngd_prblms_lst)
 
-    if arngd_prblms_lst == None:
-        exit()
-    else:
-        return arngd_prblms
+    # how to handle if there's an error and getting the final result
+    return arngd_prblms_lst
 
 
 # DEBUG
-ofa7 = arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "9999 + 9999"], True)
-print(ofa7)
+# testing = arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "9999 + 9999"], True)
+# for prblm in testing:
+#     print(f"{prblm}\n")
